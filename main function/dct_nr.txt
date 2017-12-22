@@ -1,0 +1,58 @@
+function [ output_image ] = dct_nr( input_image, k)
+    [X,Y,Z] = size(input_image);
+    %see if the input image is a colorfull image or gray image 
+    if Z == 1
+       %gray image
+       output_image = input_image;
+    else
+        %colorfull image
+        ycbcr = rgb2ycbcr(input_image);
+        output_image = ycbcr(:,:,1);
+    end
+        
+    %make image dividable by 8
+    x_reminder = mod(X, 8); y_reminder = mod(Y, 8);
+   % x_extraPixels = 8 - x_reminder; y_extraPixels = 8 - y_reminder;
+    if (x_reminder ~= 0) || (y_reminder ~= 0)
+        output_image = add_extraPixels(output_image, 8);
+    end
+    
+   
+    %divide the image to 8x8 cells.
+    cells_8x8 = mat2cell(output_image,8*ones(1,size(output_image,1)/8),8*ones(1,size(output_image,2)/8));
+    
+    
+    % noise reduction loop!!.           
+    for i =1:(ceil(X / 8))
+        for j = 1:(ceil(Y / 8))
+            %compression with dct2
+            cells_8x8{i,j} = dct2(cells_8x8{i,j});
+            %figure out the Threshold and multiply it with the 8x8 dct cell
+            cells_8x8{i,j} = cells_8x8{i,j} .* Threshold(cells_8x8{i,j}, k);
+            %decompression 
+            cells_8x8{i,j} = idct2(cells_8x8{i,j});           
+        end
+    end
+    
+    output_image = cell2mat(cells_8x8);
+    
+    % delete extra columns if any.
+    if (x_reminder ~= 0)         
+        output_image(X+1:X+(8 - x_reminder),:) = [];
+    end
+    if (y_reminder ~= 0)
+        output_image(:,Y+1:Y+(8 - y_reminder)) = [];
+    end
+    
+    if Z == 1
+       %gray image
+       output_image = uint8(output_image);
+    else
+        %colorfull image
+        ycbcr(:,:,1) = output_image;
+        output_image = ycbcr2rgb(ycbcr);
+    end
+
+
+end
+

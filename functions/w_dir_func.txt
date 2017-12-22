@@ -1,0 +1,12 @@
+function [ output ] = w_dir_func( dir )
+    if(dir >= 2)
+        output = 1;
+    elseif(dir < 1)
+        output = 0;
+    else
+        output = dir - 1;
+    end
+        
+
+end
+

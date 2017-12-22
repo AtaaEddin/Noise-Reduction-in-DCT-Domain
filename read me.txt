@@ -1,0 +1,7 @@
+1) create empty functions files for all the function with the same names ex: dct_nr.m 
+
+2) make sure that all the files are in the created project at the same level (all the files must see each others).
+
+3) after you call the imread function run the dct_nr function with your image and let the second parameters be 1
+
+but you can play with but it must be in the [0,1] domain.
