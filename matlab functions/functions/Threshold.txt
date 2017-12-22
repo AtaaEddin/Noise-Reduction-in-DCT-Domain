@@ -1,0 +1,24 @@
+function [ th_cell ] = Threshold( input_cell, k)
+    % the find the 8x8 appropriate threshold matrix we use the following
+    % measures: i)Robustness ii) Edgeness
+    
+    % Coefficients Robustness to Noise
+    robustness = [ 1.0, 1.0, 0.8, 0.6, 0.5, 0.4, 0.3, 0.0;
+                   1.0, 1.0, 0.6, 0.5, 0.4, 0.3, 0.0, 0.0;
+                   0.8, 0.6, 0.5, 0.4, 0.3, 0.1, 0.0, 0.0;
+                   0.6, 0.5, 0.4, 0.3, 0.1, 0.0, 0.0, 0.0;
+                   0.5, 0.4, 0.3, 0.1, 0.0, 0.0, 0.0, 0.1;
+                   0.4, 0.3, 0.1, 0.0, 0.0, 0.1, 0.1, 0.0;
+                   0.3, 0.1, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0;
+                   0.1, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0;];
+               
+    % Edgeness
+    [edgeness, MaxDIR] = Edgeness(input_cell);
+  
+    % Threshold
+    th_cell = ((1 - (robustness * edgeness)) * MaxDIR) * k;
+     
+    th_cell = reset_some_values(th_cell); 
+
+end
+

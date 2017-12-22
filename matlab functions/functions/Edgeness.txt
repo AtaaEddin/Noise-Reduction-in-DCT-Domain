@@ -1,0 +1,52 @@
+function [ edgeness, MaxDIR ] = Edgeness( input_cell )
+    %get maxH
+    maxH = 0;
+    for i = 1:2
+        for j = 3:8
+            if(maxH > input_cell(i, j))
+                maxH = input_cell(i, j);
+            end
+        end
+    end
+    
+    %get maxV
+     maxV = 0;
+     for i = 3:8
+        for j = 1:2
+            if(maxV > input_cell(i, j))
+                maxV = input_cell(i, j);
+            end
+        end
+    end
+                
+    %get maxD
+    maxD = 0;
+    i = 3; j = 3;
+    for k = 1:4
+        if (maxD > input_cell(i, j))
+            maxD = input_cell(i, j);
+        end
+        if (maxD > input_cell(i, j))
+            maxD = input_cell(i - 1, j);
+        end
+        if (maxD > input_cell(i, j))
+            maxD = input_cell(i, j - 1);
+        end
+        i =+ 1;
+        j =+ 1;
+    end
+
+    H = max(maxH / maxV, maxH / maxD);
+    V = max(maxV / maxH, maxV / maxD);
+    D = max(maxD / maxH, maxD / maxV);
+    
+    %define the DIR array
+    DIR = [ w_dir_func(H), w_dir_func(V), w_dir_func(D)];
+    
+    a1 = max(DIR) - min(DIR);
+    a2 = max(DIR) - median(DIR);
+    
+    edgeness = (a1 + a2) / 2;
+    MaxDIR = max(DIR);
+end
+

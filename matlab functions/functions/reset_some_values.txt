@@ -1,0 +1,22 @@
+function [ output_cell ] = reset_some_values( input_cell )
+
+    %DC values must be preserve so...
+    input_cell(1, 1) = 1; input_cell(1, 2) = 1;input_cell(2, 1) = 1;input_cell(2, 2) = 1;
+    
+    %some AC values must not be changed so...
+    input_cell(3, 5) = 0.3;input_cell(3, 6) = 0.1;input_cell(3, 7) = 0.0;
+    input_cell(3, 8) = 0.0;input_cell(5, 3) = 0.3;input_cell(6, 3) = 0.1;
+    input_cell(7, 3) = 0.0;input_cell(8, 3) = 0.0;input_cell(4, 6) = 0.0;
+    input_cell(4, 7) = 0.0;input_cell(4, 8) = 0.0;input_cell(6, 4) = 0.0;
+    input_cell(7, 4) = 0.0;input_cell(8, 4) = 0.0;input_cell(5, 7) = 0.0;
+    input_cell(5, 8) = 0.1;input_cell(7, 5) = 0.0;input_cell(8, 5) = 0.1;
+    input_cell(6, 7) = 0.1;input_cell(6, 8) = 0.0;input_cell(7, 6) = 0.1;
+    input_cell(8, 6) = 0.0; input_cell(7, 7) = 0.0;input_cell(7, 8) = 0.0;
+    input_cell(8, 7) =0.0;input_cell(8, 8) = 0.0;
+
+
+    output_cell = input_cell;
+
+
+end
+
